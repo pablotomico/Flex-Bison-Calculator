@@ -22,7 +22,7 @@ void yyerror(const char* s);
 %token  <tptr> UFNC
 %token '+' '*' '/' '(' ')'
 %token PLUSPLUS MINUSMINUS EQUALEQUAL GREATEREQUAL LESSEQUAL NOTEQUAL PLUSEQUAL MINUSEQUAL MULTEQUAL GREATER LESS
-%token ENTER EXIT
+%token ENTER EXIT ';'
 
 
 %type<val> exp
@@ -43,6 +43,7 @@ calc:
 ;
 
 line: ENTER
+    | exp ';' ENTER  { ;}
     | exp ENTER { printf("%g\n", $1); }
     | EXIT ENTER { exit(0); }
 ;
@@ -55,7 +56,15 @@ exp:    NUM                 { $$ = $1;      }
       | exp NOTEQUAL exp    { if($1 != $3) $$ = 1; else $$ = 0;}
       | exp GREATER exp     { if($1 > $3) $$ = 1; else $$ = 0;}
       | exp LESS exp        { if($1 < $3) $$ = 1; else $$ = 0;}
-      | VAR '=' exp         { $$ = $3; $1->value.var = $3;   }
+      | VAR '=' exp         {
+                                $$ = $3;
+                                if($1->priv == 'w')
+                                    $1->value.var = $3;
+                                else{
+                                    printf("You can't override a constant value!\n");
+                                    return 0;
+                                }
+                            }
       | UFNC '(' exp ')'    { $$ = (*($1->value.fnctptr))($3); }
       | VAR PLUSPLUS        { $$ = $1->value.var + 1; $1->value.var = $1->value.var + 1;}
       | VAR MINUSMINUS      { $$ = $1->value.var - 1; $1->value.var = $1->value.var - 1;}

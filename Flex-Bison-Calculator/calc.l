@@ -2,6 +2,7 @@
 
 %{
 #include <stdio.h>
+#include <string.h>
 
 #include "calc.h"
 #include "grammar.tab.h"
@@ -29,28 +30,28 @@ VarInitChar                     [_[:alpha:]]
     [fF]                                {show_functions(); BEGIN(INITIAL);  }
     [vV]                                {show_variables(); BEGIN(INITIAL);  }
     [qQ]                                {printf("Good bye!\n"); BEGIN(INITIAL); return EXIT;}
-    [lL]" "[:alpha:]+                   {
-                                            int i = 0;
-                                            while (*(yytext + i) != '\0') {
-                                                i++;
-                                            }
-                                            char *path = (char *) malloc((i - 1) * sizeof(char));
-                                            strcpy(path, yytext);
-                                            path[i] = '\0';
-                                            printf("i=%i, Loading file \"%s\"\n",i, path);
+    [lL]" "[[:alpha:]/\-_]+[.?[[:alpha:]]+]?    {
 
+                                            FILE* fp = fopen(yytext+2, "r+");
+                                            if(!fp){
+                                                printf("Error loading file\n");
+                                                yyin=stdin;
+                                            }else{
+                                                yyin = fp;
+                                                printf("Loading file %s\n", yytext+2);
+                                            }
                                             BEGIN(INITIAL);
                                         }
 }
 {VarInitChar}{VarChar}*                 {
                                             s = getsym(yytext);
                                             if(s == 0){
-                                             s = putsym(yytext, VAR);
+                                                s = putsym(yytext, VAR, 'r');
                                             }
                                             yylval.tptr = s;
                                             return s->type;
                                         }
-[ \t\r]	;
+[ \t\r]
 [0-9]+(\.[0-9]+)? 	                    {yylval.val = atof(yytext); return NUM;}
 [0-9]+([\.][0-9]*)?[eE][+-]?[0-9]+      {yylval.val = atof(yytext); return NUM;}
 \n		    	                        {return ENTER;}
@@ -62,6 +63,7 @@ VarInitChar                     [_[:alpha:]]
 ")"		    	                        {return ')';}
 "="                                     {return '=';}
 "^"                                     {return '^';}
+";"                                     {return ';';}
 ">"                                     {return(GREATER);}
 "<"                                     {return(LESS);}
 "++"                                    {return(PLUSPLUS);}
@@ -73,7 +75,7 @@ VarInitChar                     [_[:alpha:]]
 "+="                                    {return(PLUSEQUAL);}
 "-="                                    {return(MINUSEQUAL);}
 "*="                                    {return(MULTEQUAL);}
-<<EOF>>                                 {yyin=stdin;}
+<<EOF>>                                 {printf("End of File\n");fclose(yyin);yyin=stdin;yyrestart(yyin);BEGIN(INITIAL);return ENTER;}
 %%
 
 void show_functions(){

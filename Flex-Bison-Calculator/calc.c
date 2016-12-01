@@ -5,12 +5,12 @@
 #include "grammar.tab.h"
 
 
-struct init {
+struct init_fncts {
     char *fname;
     double (*fnct)();
 };
 
-struct init arith_fncts[]
+struct init_fncts arith_fncts[]
         = {
                 "sin", sin,
                 "cos", cos,
@@ -18,6 +18,18 @@ struct init arith_fncts[]
                 "ln", log,
                 "exp", exp,
                 "sqrt", sqrt,
+                0, 0
+        };
+
+struct init_cts {
+    char *name;
+    double value;
+};
+
+struct init_cts cts[]
+        = {
+                "pi", M_PI,
+                "e", M_E,
                 0, 0
         };
 
@@ -30,17 +42,23 @@ void init_table () /* pone las funciones aritméticas en una tabla. */
     symrec *ptr;
     for (i = 0; arith_fncts[i].fname != 0; i++)
     {
-        ptr = putsym (arith_fncts[i].fname, UFNC);
+        ptr = putsym (arith_fncts[i].fname, UFNC, 'r');
         ptr->value.fnctptr = arith_fncts[i].fnct;
     }
+    for (i = 0; cts[i].name != 0; i++)
+    {
+        ptr = putsym (cts[i].name, VAR, 'r');
+        ptr->value.var = cts[i].value;
+    }
 }
-symrec *putsym(char *sym_name, int sym_type) {
+symrec *putsym(char *sym_name, int sym_type, char sym_priv) {
     symrec *ptr;
     ptr = (symrec *) malloc(sizeof(symrec));
     ptr->name = (char *) malloc(strlen(sym_name) + 1);
     strcpy(ptr->name, sym_name);
     ptr->type = sym_type;
     ptr->value.var = 0; /* pone valor a 0 incluso si es fctn.*/
+    ptr->priv = sym_priv;
     ptr->next = (struct symrec *) sym_table;
     sym_table = ptr;
     return ptr;

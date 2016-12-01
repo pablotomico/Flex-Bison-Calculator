@@ -9,6 +9,7 @@ struct symrec
 {
     char *name; /* nombre del sı́mbolo */
     int type;   /* tipo del sı́mbolo: bien VAR o FNCT */
+    char priv;
     union {
         double var; /* valor de una VAR */
         double (*fnctptr)(); /* valor de una FNCT */
@@ -23,7 +24,7 @@ typedef struct symrec symrec;
 extern symrec *sym_table;
 
 void init_table ();
-symrec *putsym(char *sym_name, int sym_type);
+symrec *putsym(char *sym_name, int sym_type, char sym_priv);
 
 symrec * getsym (char *sym_name);
 

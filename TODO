@@ -2,10 +2,13 @@
 ==== TODO List Flex-Bison-Calculator ====
 =========================================
 
-----	Error manager	
-
 ----	File Reading: interpreter
 	---	Load with l
+
+
+
+----	Error manager	
+
 --	Integrate symbol table from DCompiler
 
 --	Use 'ans' (or smth like that) for previous answer
