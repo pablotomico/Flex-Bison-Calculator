@@ -1,51 +1,63 @@
 %{
-#include <math.h>   /* Para funciones matemáticas, cos(), sin(), etc. */
-#include "calc.h"   /* Contiene definición de ‘symrec’ */
+#include <stdio.h>
+#include <stdlib.h>
+extern int yylex();
+extern int yyparse();
+extern FILE* yyin;
+void yyerror(const char* s);
 %}
 
 %union {
-double val;     /* Para devolver números */
-symrec *tptr;   /* Para devolver punteros a la tabla de sı́mbolos */
+	int ival;
+	float fval;
 }
 
-%token <val> NUM        /* Número simple en doble precisión */
-%token <tptr> VAR FNCT  /* Variable y Función */
-%type <val> exp
+%token<ival> T_INT
+%token<fval> T_FLOAT
+%token '+' '*' '/' '(' ')'
+%token ENTER EXIT
+%left '+' '-'
+%left '*' '/'
 
-%right ’=’
-%left ’-’ ’+’
-%left ’*’ ’/’
-%left NEG       /* Negación--menos unario */
-%right ’^’      /* Exponenciación */
+%type<ival> exp
+%type<fval> m_exp
 
+%start calc
 
-/* A continuación la gramática */
 %%
 
-input:  /* vacı́o */
-        | input line
+calc:
+	   | calc line
 ;
 
-line:
-            ’\n’
-        | exp ’\n’      { printf ("\t%.10g\n", $1); }
-        | error ’\n’    { yyerrok;                  }
+line: ENTER
+    | m_exp ENTER { printf("%f\n", $1);}
+    | exp ENTER { printf("%i\n", $1); }
+    | EXIT ENTER { printf("exiting...\n"); exit(0); }
 ;
 
-exp:      NUM               { $$ = $1;                          }
-        | VAR               { $$ = $1->value.var;               }
-        | VAR ’=’ exp       { $$ = $3; $1->value.var = $3;      }
-        | FNCT ’(’ exp ’)’  { $$ = (*($1->value.fnctptr))($3);  }
-        | exp ’+’ exp       { $$ = $1 + $3;                     }
-        | exp ’-’ exp       { $$ = $1 - $3;                     }
-        | exp ’*’ exp       { $$ = $1 * $3;                     }
-        | exp ’/’ exp       { $$ = $1 / $3;                     }
-        | ’-’ exp %prec NEG { $$ = -$2;                         }
-        | exp ’^’ exp       { $$ = pow ($1, $3);                }
-        | ’(’ exp ’)’       { $$ = $2;                          }
-
-
-
+m_exp: T_FLOAT                 		 { $$ = $1; }
+	  | m_exp '+' m_exp	 { $$ = $1 + $3; }
+	  | m_exp '-' m_exp	 { $$ = $1 - $3; }
+	  | m_exp '*' m_exp { $$ = $1 * $3; }
+	  | m_exp '/' m_exp	 { $$ = $1 / $3; }
+	  | '(' m_exp ')'		 { $$ = $2; }
+	  | exp '+' m_exp	 	 { $$ = $1 + $3; }
+	  | exp '-' m_exp	 	 { $$ = $1 - $3; }
+	  | exp '*' m_exp 	 { $$ = $1 * $3; }
+	  | exp '/' m_exp	 { $$ = $1 / $3; }
+	  | m_exp '+' exp	 	 { $$ = $1 + $3; }
+	  | m_exp '-' exp	 	 { $$ = $1 - $3; }
+	  | m_exp '*' exp 	 { $$ = $1 * $3; }
+	  | m_exp '/' exp	 { $$ = $1 / $3; }
+	  | exp '/' exp		 { $$ = $1 / (float)$3; }
 ;
-/* Fin de la gramática */
+
+exp: T_INT				{ $$ = $1; }
+	  | exp '+' exp	{ $$ = $1 + $3; }
+	  | exp '-' exp	{ $$ = $1 - $3; }
+	  | exp '*' exp	{ $$ = $1 * $3; }
+	  | '(' exp ')'		{ $$ = $2; }
+;
+
 %%

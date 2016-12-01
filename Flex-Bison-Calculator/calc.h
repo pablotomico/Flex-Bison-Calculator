@@ -21,6 +21,7 @@ typedef struct symrec symrec;
 /* La tabla de sı́mbolos: una cadena de ‘struct symrec’. */
 extern symrec *sym_table;
 
-symrec *putsym();
 
-symrec *getsym();
+symrec *putsym(char *sym_name, int sym_type);
+
+symrec * getsym (char *sym_name);
