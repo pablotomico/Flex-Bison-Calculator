@@ -5,7 +5,7 @@
 ----	Error manager	
 
 ----	File Reading: interpreter
-
+	---	Load with l
 --	Integrate symbol table from DCompiler
 
 --	Use 'ans' (or smth like that) for previous answer

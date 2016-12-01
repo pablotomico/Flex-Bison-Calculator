@@ -10,7 +10,7 @@ int main() {
     yyin = stdin;
     init_table();
 
-    printf("Welcome! for help type :h\n");
+    printf("Welcome! for help type :h or :H\n");
 
     do {
         yyparse();

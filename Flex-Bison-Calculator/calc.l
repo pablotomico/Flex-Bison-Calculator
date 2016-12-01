@@ -29,6 +29,18 @@ VarInitChar                     [_[:alpha:]]
     [fF]                                {show_functions(); BEGIN(INITIAL);  }
     [vV]                                {show_variables(); BEGIN(INITIAL);  }
     [qQ]                                {printf("Good bye!\n"); BEGIN(INITIAL); return EXIT;}
+    [lL]" "[:alpha:]+                   {
+                                            int i = 0;
+                                            while (*(yytext + i) != '\0') {
+                                                i++;
+                                            }
+                                            char *path = (char *) malloc((i - 1) * sizeof(char));
+                                            strcpy(path, yytext);
+                                            path[i] = '\0';
+                                            printf("i=%i, Loading file \"%s\"\n",i, path);
+
+                                            BEGIN(INITIAL);
+                                        }
 }
 {VarInitChar}{VarChar}*                 {
                                             s = getsym(yytext);
@@ -38,7 +50,7 @@ VarInitChar                     [_[:alpha:]]
                                             yylval.tptr = s;
                                             return s->type;
                                         }
-[ \t]	;
+[ \t\r]	;
 [0-9]+(\.[0-9]+)? 	                    {yylval.val = atof(yytext); return NUM;}
 [0-9]+([\.][0-9]*)?[eE][+-]?[0-9]+      {yylval.val = atof(yytext); return NUM;}
 \n		    	                        {return ENTER;}
@@ -61,11 +73,12 @@ VarInitChar                     [_[:alpha:]]
 "+="                                    {return(PLUSEQUAL);}
 "-="                                    {return(MINUSEQUAL);}
 "*="                                    {return(MULTEQUAL);}
+<<EOF>>                                 {yyin=stdin;}
 %%
 
 void show_functions(){
     symrec *s = sym_table;
-    printf("Available functions are:\n");
+    printf("The available functions are:\n");
     while(s->next){
         if(s->type == UFNC){
             printf("\t %s()\n", s->name);
@@ -95,7 +108,7 @@ void show_variables(){
 
 void show_help(){
     printf(" ---------------------------------\n");
-    printf("| Commands supported:             |\n");
+    printf("| Supported commands:             |\n");
     printf("|      :h      -> help            |\n");
     printf("|      :f      -> show functions  |\n");
     printf("|      :v      -> show variables  |\n");
