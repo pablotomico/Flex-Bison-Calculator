@@ -1,7 +1,10 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "calc.h"
+
+
 extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
@@ -13,8 +16,9 @@ void yyerror(const char* s);
 	symrec *tptr;
 }
 
-%token<val> NUM
-%token <tptr> VAR
+%token  <val> NUM
+%token  <tptr> VAR
+%token  <tptr> UFNC
 %token '+' '*' '/' '(' ')'
 %token ENTER EXIT
 
@@ -41,8 +45,9 @@ line: ENTER
 ;
 
 exp: NUM                    { $$ = $1;      }
-      | VAR                 { $$ = $1->value.var}
-      | VAR '=' exp         { $$ = $3; $1->value.var = $3   }
+      | VAR                 { $$ = $1->value.var;}
+      | VAR '=' exp         { $$ = $3; $1->value.var = $3;   }
+      | UFNC '(' exp ')'    { $$ = (*($1->value.fnctptr))($3); }
 	  | exp '+' exp	        { $$ = $1 + $3; }
 	  | exp '-' exp	        { $$ = $1 - $3; }
 	  | exp '*' exp         { $$ = $1 * $3; }

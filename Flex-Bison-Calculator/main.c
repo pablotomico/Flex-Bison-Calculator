@@ -1,11 +1,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 #include "grammar.tab.c"
+
 #include "lex.yy.c"
 
 int main() {
     yyin = stdin;
+    init_table();
+
+    symrec *s = getsym("sin");
+
 
     do {
         yyparse();
