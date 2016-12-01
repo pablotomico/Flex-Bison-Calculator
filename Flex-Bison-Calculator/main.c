@@ -10,8 +10,7 @@ int main() {
     yyin = stdin;
     init_table();
 
-    symrec *s = getsym("sin");
-
+    printf("Welcome! for help type :h\n");
 
     do {
         yyparse();

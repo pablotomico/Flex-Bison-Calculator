@@ -1245,7 +1245,7 @@ yyreduce:
 
   case 6:
 #line 44 "grammar.y" /* yacc.c:1646  */
-    { printf("exiting...\n"); exit(0); }
+    { exit(0); }
 #line 1250 "grammar.tab.c" /* yacc.c:1646  */
     break;
 

@@ -41,10 +41,10 @@ calc:
 
 line: ENTER
     | exp ENTER { printf("%g\n", $1); }
-    | EXIT ENTER { printf("exiting...\n"); exit(0); }
+    | EXIT ENTER { exit(0); }
 ;
 
-exp: NUM                    { $$ = $1;      }
+exp:    NUM                 { $$ = $1;      }
       | VAR                 { $$ = $1->value.var;}
       | VAR '=' exp         { $$ = $3; $1->value.var = $3;   }
       | UFNC '(' exp ')'    { $$ = (*($1->value.fnctptr))($3); }

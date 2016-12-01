@@ -2,8 +2,10 @@
 ==== TODO List Flex-Bison-Calculator ====
 =========================================
 
------	Make exponentials work
+----	Boolean operators: >=, <=, ==, >, <, etc.
 
 ----	File Reading: Like a interpreter
 
 --	Integrate symbol table from DCompiler
+
+--	Use 'ans' (or smth like that) for previous answer
