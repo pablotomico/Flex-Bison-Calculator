@@ -2,10 +2,8 @@
 ==== TODO List Flex-Bison-Calculator ====
 =========================================
 
------ 	Symbol Table Integration: take from bison manual example
-	---	Vars
-	---	Functions (math.h) 	 
-	--	Integrate symbol table from DCompiler
+-----	Make exponentials work
 
 ----	File Reading: Like a interpreter
----	Scientific numbers
+
+--	Integrate symbol table from DCompiler
