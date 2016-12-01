@@ -8,19 +8,17 @@ void yyerror(const char* s);
 %}
 
 %union {
-	int ival;
-	float fval;
+	float val;
 }
 
-%token<ival> T_INT
-%token<fval> T_FLOAT
+
+%token<val> NUM
 %token '+' '*' '/' '(' ')'
 %token ENTER EXIT
 %left '+' '-'
 %left '*' '/'
 
-%type<ival> exp
-%type<fval> m_exp
+%type<val> exp
 
 %start calc
 
@@ -31,33 +29,17 @@ calc:
 ;
 
 line: ENTER
-    | m_exp ENTER { printf("%f\n", $1);}
-    | exp ENTER { printf("%i\n", $1); }
+    | exp ENTER { printf("%g\n", $1); }
     | EXIT ENTER { printf("exiting...\n"); exit(0); }
 ;
 
-m_exp: T_FLOAT                 		 { $$ = $1; }
-	  | m_exp '+' m_exp	 { $$ = $1 + $3; }
-	  | m_exp '-' m_exp	 { $$ = $1 - $3; }
-	  | m_exp '*' m_exp { $$ = $1 * $3; }
-	  | m_exp '/' m_exp	 { $$ = $1 / $3; }
-	  | '(' m_exp ')'		 { $$ = $2; }
-	  | exp '+' m_exp	 	 { $$ = $1 + $3; }
-	  | exp '-' m_exp	 	 { $$ = $1 - $3; }
-	  | exp '*' m_exp 	 { $$ = $1 * $3; }
-	  | exp '/' m_exp	 { $$ = $1 / $3; }
-	  | m_exp '+' exp	 	 { $$ = $1 + $3; }
-	  | m_exp '-' exp	 	 { $$ = $1 - $3; }
-	  | m_exp '*' exp 	 { $$ = $1 * $3; }
-	  | m_exp '/' exp	 { $$ = $1 / $3; }
-	  | exp '/' exp		 { $$ = $1 / (float)$3; }
+exp: NUM                    { $$ = $1; }
+	  | exp '+' exp	        { $$ = $1 + $3; }fval
+	  | exp '-' exp	        { $$ = $1 - $3; }
+	  | exp '*' exp         { $$ = $1 * $3; }
+	  | exp '/' exp		    { $$ = $1 / (float)$3; }
+	  | '(' exp ')'		    { $$ = $2; }
 ;
 
-exp: T_INT				{ $$ = $1; }
-	  | exp '+' exp	{ $$ = $1 + $3; }
-	  | exp '-' exp	{ $$ = $1 - $3; }
-	  | exp '*' exp	{ $$ = $1 * $3; }
-	  | '(' exp ')'		{ $$ = $2; }
-;
 
 %%

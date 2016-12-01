@@ -12,8 +12,7 @@
 %%
 
 [ \t]	; // ignore all whitespace
-[0-9]+\.[0-9]+ 	{yylval.fval = atof(yytext); return T_FLOAT;}
-[0-9]+		    {yylval.ival = atoi(yytext); return T_INT;}
+[0-9]+(\.[0-9]+)? 	{yylval.val = atof(yytext); return NUM;}
 \n		    	{return ENTER;}
 "+"		    	{return '+';}
 "-"		    	{return '-';}
