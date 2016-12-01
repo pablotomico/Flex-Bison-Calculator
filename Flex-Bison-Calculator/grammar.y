@@ -14,18 +14,21 @@ void yyerror(const char* s);
 %union {
 	float val;
 	symrec *tptr;
+	char *str;
 }
 
 %token  <val> NUM
 %token  <tptr> VAR
 %token  <tptr> UFNC
 %token '+' '*' '/' '(' ')'
+%token PLUSPLUS MINUSMINUS EQUALEQUAL GREATEREQUAL LESSEQUAL NOTEQUAL PLUSEQUAL MINUSEQUAL MULTEQUAL GREATER LESS
 %token ENTER EXIT
+
 
 %type<val> exp
 
 %right '='
-%left '+' '-'
+%left '+' '-' PLUSPLUS MINUSMINUS EQUALEQUAL GREATEREQUAL LESSEQUAL NOTEQUAL PLUSEQUAL MINUSEQUAL MULTEQUAL GREATER LESS
 %left '*' '/'
 %left NEG
 %right '^'
@@ -46,8 +49,19 @@ line: ENTER
 
 exp:    NUM                 { $$ = $1;      }
       | VAR                 { $$ = $1->value.var;}
+      | exp EQUALEQUAL exp  { if($1 == $3) $$ = 1; else $$ = 0;}
+      | exp GREATEREQUAL exp{ if($1 >= $3) $$ = 1; else $$ = 0;}
+      | exp LESSEQUAL exp   { if($1 <= $3) $$ = 1; else $$ = 0;}
+      | exp NOTEQUAL exp    { if($1 != $3) $$ = 1; else $$ = 0;}
+      | exp GREATER exp     { if($1 > $3) $$ = 1; else $$ = 0;}
+      | exp LESS exp        { if($1 < $3) $$ = 1; else $$ = 0;}
       | VAR '=' exp         { $$ = $3; $1->value.var = $3;   }
       | UFNC '(' exp ')'    { $$ = (*($1->value.fnctptr))($3); }
+      | VAR PLUSPLUS        { $$ = $1->value.var + 1; $1->value.var = $1->value.var + 1;}
+      | VAR MINUSMINUS      { $$ = $1->value.var - 1; $1->value.var = $1->value.var - 1;}
+	  | VAR PLUSEQUAL exp	{ $$ = $1->value.var + $3; $1->value.var = $1->value.var + $3;}
+	  | VAR MINUSEQUAL exp	{ $$ = $1->value.var - $3; $1->value.var = $1->value.var - $3;}
+	  | VAR MULTEQUAL exp	{ $$ = $1->value.var * $3; $1->value.var = $1->value.var * $3;}
 	  | exp '+' exp	        { $$ = $1 + $3; }
 	  | exp '-' exp	        { $$ = $1 - $3; }
 	  | exp '*' exp         { $$ = $1 * $3; }

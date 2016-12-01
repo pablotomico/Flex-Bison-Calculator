@@ -25,10 +25,10 @@ VarInitChar                     [_[:alpha:]]
 %%
 ":"	    	                            {BEGIN(HELP);}
 <HELP>{
-    h                                   {show_help(); BEGIN(INITIAL);}
-    f                                   {show_functions(); BEGIN(INITIAL);  }
-    v                                   {show_variables(); BEGIN(INITIAL);  }
-    q                                   {printf("Good bye!\n"); BEGIN(INITIAL); return EXIT;}
+    [hH]                                {show_help(); BEGIN(INITIAL);}
+    [fF]                                {show_functions(); BEGIN(INITIAL);  }
+    [vV]                                {show_variables(); BEGIN(INITIAL);  }
+    [qQ]                                {printf("Good bye!\n"); BEGIN(INITIAL); return EXIT;}
 }
 {VarInitChar}{VarChar}*                 {
                                             s = getsym(yytext);
@@ -50,7 +50,17 @@ VarInitChar                     [_[:alpha:]]
 ")"		    	                        {return ')';}
 "="                                     {return '=';}
 "^"                                     {return '^';}
-
+">"                                     {return(GREATER);}
+"<"                                     {return(LESS);}
+"++"                                    {return(PLUSPLUS);}
+"--"                                    {return(MINUSMINUS);}
+"=="                                    {return(EQUALEQUAL);}
+">="                                    {return(GREATEREQUAL);}
+"<="                                    {return(LESSEQUAL);}
+"!="                                    {return(NOTEQUAL);}
+"+="                                    {return(PLUSEQUAL);}
+"-="                                    {return(MINUSEQUAL);}
+"*="                                    {return(MULTEQUAL);}
 %%
 
 void show_functions(){

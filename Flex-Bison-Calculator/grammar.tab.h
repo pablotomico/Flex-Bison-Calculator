@@ -48,9 +48,20 @@ extern int yydebug;
     NUM = 258,
     VAR = 259,
     UFNC = 260,
-    ENTER = 261,
-    EXIT = 262,
-    NEG = 263
+    PLUSPLUS = 261,
+    MINUSMINUS = 262,
+    EQUALEQUAL = 263,
+    GREATEREQUAL = 264,
+    LESSEQUAL = 265,
+    NOTEQUAL = 266,
+    PLUSEQUAL = 267,
+    MINUSEQUAL = 268,
+    MULTEQUAL = 269,
+    GREATER = 270,
+    LESS = 271,
+    ENTER = 272,
+    EXIT = 273,
+    NEG = 274
   };
 #endif
 
@@ -63,8 +74,9 @@ union YYSTYPE
 
 	float val;
 	symrec *tptr;
+	char *str;
 
-#line 68 "grammar.tab.h" /* yacc.c:1909  */
+#line 80 "grammar.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -2,9 +2,9 @@
 ==== TODO List Flex-Bison-Calculator ====
 =========================================
 
-----	Boolean operators: >=, <=, ==, >, <, etc.
+----	Error manager	
 
-----	File Reading: Like a interpreter
+----	File Reading: interpreter
 
 --	Integrate symbol table from DCompiler
 
