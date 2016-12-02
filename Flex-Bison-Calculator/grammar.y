@@ -14,7 +14,6 @@ void yyerror(const char* s);
 %union {
 	float val;
 	symrec *tptr;
-	char *str;
 }
 
 %token  <val> NUM
@@ -56,6 +55,7 @@ exp:    NUM                 { $$ = $1;      }
       | exp NOTEQUAL exp    { if($1 != $3) $$ = 1; else $$ = 0;}
       | exp GREATER exp     { if($1 > $3) $$ = 1; else $$ = 0;}
       | exp LESS exp        { if($1 < $3) $$ = 1; else $$ = 0;}
+      | UFNC '=' exp        {printf("Reserved word %s\n", $1->name); return 0;}
       | VAR '=' exp         {
                                 $$ = $3;
                                 if($1->priv == 'w')

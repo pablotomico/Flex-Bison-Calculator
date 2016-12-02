@@ -51,6 +51,20 @@ void init_table () /* pone las funciones aritméticas en una tabla. */
         ptr->value.var = cts[i].value;
     }
 }
+void remove_element(symrec *s){
+    if(s->next){
+        remove_element(s->next);
+    }else{
+        free(s);
+    }
+
+}
+
+void remove_table(){
+    remove_element(sym_table);
+}
+
+
 symrec *putsym(char *sym_name, int sym_type, char sym_priv) {
     symrec *ptr;
     ptr = (symrec *) malloc(sizeof(symrec));

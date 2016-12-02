@@ -12,6 +12,8 @@
 void show_functions();
 void show_help();
 void show_variables();
+void restart();
+void clear(symrec *s);
 symrec *s;
 
 %}
@@ -30,6 +32,7 @@ VarInitChar                     [_[:alpha:]]
     [fF]                                {show_functions(); BEGIN(INITIAL);  }
     [vV]                                {show_variables(); BEGIN(INITIAL);  }
     [qQ]                                {printf("Good bye!\n"); BEGIN(INITIAL); return EXIT;}
+    [rR]                                {restart();BEGIN(INITIAL);}
     [lL]" "[[:alpha:]/\-_]+[.?[[:alpha:]]+]?    {
 
                                             FILE* fp = fopen(yytext+2, "r+");
@@ -46,7 +49,7 @@ VarInitChar                     [_[:alpha:]]
 {VarInitChar}{VarChar}*                 {
                                             s = getsym(yytext);
                                             if(s == 0){
-                                                s = putsym(yytext, VAR, 'r');
+                                                s = putsym(yytext, VAR, 'w');
                                             }
                                             yylval.tptr = s;
                                             return s->type;
@@ -109,11 +112,25 @@ void show_variables(){
 }
 
 void show_help(){
-    printf(" ---------------------------------\n");
-    printf("| Supported commands:             |\n");
-    printf("|      :h      -> help            |\n");
-    printf("|      :f      -> show functions  |\n");
-    printf("|      :v      -> show variables  |\n");
-    printf("|      :q      -> quit            |\n");
-    printf(" ---------------------------------\n");
+    printf(" -----------------------------------\n");
+    printf("| Supported commands:               |\n");
+    printf("|      :h        -> help            |\n");
+    printf("|      :l [path] -> load file       |\n");
+    printf("|      :f        -> show functions  |\n");
+    printf("|      :v        -> show variables  |\n");
+    printf("|      :r        -> restart         |\n");
+    printf("|      :q        -> quit            |\n");
+    printf(" -----------------------------------\n");
+    printf("| Operators:                        |\n");
+    printf("|  +  -  *  /  =    += -= *= ++ --  |\n");
+    printf("|     ==    >=    <=    >    <      |\n");
+    printf("|     True => 0     False => 1      |\n");
+    printf(" -----------------------------------\n");
+}
+
+void restart(){
+    symrec s = *sym_table;
+    remove_table();
+
+    //init_table();
 }

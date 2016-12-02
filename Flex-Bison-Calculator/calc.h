@@ -24,6 +24,9 @@ typedef struct symrec symrec;
 extern symrec *sym_table;
 
 void init_table ();
+
+void remove_table();
+
 symrec *putsym(char *sym_name, int sym_type, char sym_priv);
 
 symrec * getsym (char *sym_name);

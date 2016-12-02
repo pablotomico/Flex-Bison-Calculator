@@ -74,9 +74,8 @@ union YYSTYPE
 
 	float val;
 	symrec *tptr;
-	char *str;
 
-#line 80 "grammar.tab.h" /* yacc.c:1909  */
+#line 79 "grammar.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
