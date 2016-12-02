@@ -9,9 +9,8 @@
 
 #define YY_DECL int yylex()
 
-void show_functions();
+
 void show_help();
-void show_variables();
 void restart();
 void clear(symrec *s);
 symrec *s;
@@ -81,35 +80,9 @@ VarInitChar                     [_[:alpha:]]
 <<EOF>>                                 {printf("End of File\n");fclose(yyin);yyin=stdin;yyrestart(yyin);BEGIN(INITIAL);return ENTER;}
 %%
 
-void show_functions(){
-    symrec *s = sym_table;
-    printf("The available functions are:\n");
-    while(s->next){
-        if(s->type == UFNC){
-            printf("\t %s()\n", s->name);
-        }
-        s = s->next;
-    }
-}
 
-void show_variables(){
-    symrec *s = sym_table;
-    int check = 0;
-    while(s->next){
-        if(s->type == VAR){
-            if(check == 0){
-                check = 1;
-                printf("Current variables:\n");
-            }
-            printf("\t %s = %g\n", s->name, s->value.var);
-        }
-        s = s->next;
-    }
-    if(check == 0){
-        printf("You haven't declared any variable yet!\n");
-    }
 
-}
+
 
 void show_help(){
     printf(" -----------------------------------\n");

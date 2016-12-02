@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include "calc.h"
 #include "grammar.tab.h"
@@ -52,11 +53,7 @@ void init_table () /* pone las funciones aritméticas en una tabla. */
     }
 }
 void remove_element(symrec *s){
-    if(s->next){
-        remove_element(s->next);
-    }else{
-        free(s);
-    }
+
 
 }
 
@@ -64,24 +61,82 @@ void remove_table(){
     remove_element(sym_table);
 }
 
+symrec *putsym_r(symrec **s, char *sym_name, int sym_type, char sym_priv) {
+    symrec *ptr;
+    int res;
+
+    if(*s == NULL){
+        ptr = (symrec *) malloc(sizeof(symrec));
+        ptr->name = (char *) malloc(strlen(sym_name) + 1);
+        strcpy(ptr->name, sym_name);
+        ptr->type = sym_type;
+        ptr->value.var = 0; /* pone valor a 0 incluso si es fctn.*/
+        ptr->priv = sym_priv;
+        ptr->left = (struct symrec *) NULL;
+        ptr->right = (struct symrec *) NULL;
+
+        *s = ptr;
+    }else{
+        res = strcmp(sym_name, (*s)->name);
+        if (res < 0){
+            ptr = putsym_r(&((*s)->left), sym_name, sym_type, sym_priv);
+        }else {
+            ptr = putsym_r(&((*s)->right), sym_name, sym_type, sym_priv);
+        }
+    }
+
+    return ptr;
+}
 
 symrec *putsym(char *sym_name, int sym_type, char sym_priv) {
-    symrec *ptr;
-    ptr = (symrec *) malloc(sizeof(symrec));
-    ptr->name = (char *) malloc(strlen(sym_name) + 1);
-    strcpy(ptr->name, sym_name);
-    ptr->type = sym_type;
-    ptr->value.var = 0; /* pone valor a 0 incluso si es fctn.*/
-    ptr->priv = sym_priv;
-    ptr->next = (struct symrec *) sym_table;
-    sym_table = ptr;
-    return ptr;
+    return putsym_r(&sym_table, sym_name, sym_type, sym_priv);;
 }
 
 symrec *getsym(char *sym_name) {
     symrec *ptr;
-    for (ptr = sym_table; ptr != (symrec *) 0; ptr = (symrec *) ptr->next)
+    for (ptr = sym_table; ptr != (symrec *) 0; ptr = (symrec *) ptr->left)
         if (strcmp(ptr->name, sym_name) == 0)
             return ptr;
     return 0;
+}
+
+
+
+void show_var(symrec *s){
+    if(s->left != NULL){
+        show_var(s->left);
+    }
+
+    if(s->name != NULL && s->type == VAR){
+        printf("\t %s = %g\n", s->name, s->value.var);
+    }
+
+    if(s->right != NULL){
+        show_var(s->right);
+    }
+}
+
+void show_variables(){
+    printf("Current variables:\n");
+    show_var(sym_table);
+}
+
+void show_function(symrec *s){
+    if(s->left != NULL){
+        show_function(s->left);
+    }
+
+    if(s->name != NULL && s->type == UFNC){
+        printf("\t %s()\n", s->name);
+    }
+
+    if(s->right != NULL){
+        show_function(s->right);
+    }
+}
+
+void show_functions(){
+    symrec *s = sym_table;
+    printf("The available functions are:\n");
+    show_function(sym_table);
 }

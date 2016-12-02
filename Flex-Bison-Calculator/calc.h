@@ -15,7 +15,8 @@ struct symrec
         double (*fnctptr)(); /* valor de una FNCT */
     } value;
 
-    struct symrec *next; /* campo de enlace */
+    struct symrec *left; /* campo de enlace */
+    struct symrec *right;
 };
 
 typedef struct symrec symrec;
@@ -31,5 +32,8 @@ symrec *putsym(char *sym_name, int sym_type, char sym_priv);
 
 symrec * getsym (char *sym_name);
 
+void show_variables();
+
+void show_functions();
 
 #endif

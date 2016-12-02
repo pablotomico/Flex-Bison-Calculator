@@ -524,9 +524,8 @@ char *yytext;
 
 #define YY_DECL int yylex()
 
-void show_functions();
+
 void show_help();
-void show_variables();
 void restart();
 void clear(symrec *s);
 symrec *s;
@@ -534,7 +533,7 @@ symrec *s;
 /*===== DEFINITIONS =====*/
 /*START CONDITIONS*/
 
-#line 538 "lex.yy.c"
+#line 537 "lex.yy.c"
 
 #define INITIAL 0
 #define HELP 1
@@ -753,9 +752,9 @@ YY_DECL
 		}
 
 	{
-#line 28 "calc.l"
+#line 27 "calc.l"
 
-#line 759 "lex.yy.c"
+#line 758 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -814,38 +813,38 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 29 "calc.l"
+#line 28 "calc.l"
 {BEGIN(HELP);}
 	YY_BREAK
 
 case 2:
 YY_RULE_SETUP
-#line 31 "calc.l"
+#line 30 "calc.l"
 {show_help(); BEGIN(INITIAL);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 32 "calc.l"
+#line 31 "calc.l"
 {show_functions(); BEGIN(INITIAL);  }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 33 "calc.l"
+#line 32 "calc.l"
 {show_variables(); BEGIN(INITIAL);  }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 34 "calc.l"
+#line 33 "calc.l"
 {printf("Good bye!\n"); BEGIN(INITIAL); return EXIT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 35 "calc.l"
+#line 34 "calc.l"
 {restart();BEGIN(INITIAL);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 36 "calc.l"
+#line 35 "calc.l"
 {
 
                                             FILE* fp = fopen(yytext+2, "r+");
@@ -862,7 +861,7 @@ YY_RULE_SETUP
 
 case 8:
 YY_RULE_SETUP
-#line 49 "calc.l"
+#line 48 "calc.l"
 {
                                             s = getsym(yytext);
                                             if(s == 0){
@@ -874,136 +873,136 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 57 "calc.l"
+#line 56 "calc.l"
 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 58 "calc.l"
+#line 57 "calc.l"
 {yylval.val = atof(yytext); return NUM;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 59 "calc.l"
+#line 58 "calc.l"
 {yylval.val = atof(yytext); return NUM;}
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 60 "calc.l"
+#line 59 "calc.l"
 {return ENTER;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 61 "calc.l"
+#line 60 "calc.l"
 {return '+';}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 62 "calc.l"
+#line 61 "calc.l"
 {return '-';}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 63 "calc.l"
+#line 62 "calc.l"
 {return '*';}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 64 "calc.l"
+#line 63 "calc.l"
 {return '/';}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 65 "calc.l"
+#line 64 "calc.l"
 {return '(';}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 66 "calc.l"
+#line 65 "calc.l"
 {return ')';}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 67 "calc.l"
+#line 66 "calc.l"
 {return '=';}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 68 "calc.l"
+#line 67 "calc.l"
 {return '^';}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 69 "calc.l"
+#line 68 "calc.l"
 {return ';';}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 70 "calc.l"
+#line 69 "calc.l"
 {return(GREATER);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 71 "calc.l"
+#line 70 "calc.l"
 {return(LESS);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 72 "calc.l"
+#line 71 "calc.l"
 {return(PLUSPLUS);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 73 "calc.l"
+#line 72 "calc.l"
 {return(MINUSMINUS);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 74 "calc.l"
+#line 73 "calc.l"
 {return(EQUALEQUAL);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 75 "calc.l"
+#line 74 "calc.l"
 {return(GREATEREQUAL);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 76 "calc.l"
+#line 75 "calc.l"
 {return(LESSEQUAL);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 77 "calc.l"
+#line 76 "calc.l"
 {return(NOTEQUAL);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 78 "calc.l"
+#line 77 "calc.l"
 {return(PLUSEQUAL);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 79 "calc.l"
+#line 78 "calc.l"
 {return(MINUSEQUAL);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 80 "calc.l"
+#line 79 "calc.l"
 {return(MULTEQUAL);}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(HELP):
-#line 81 "calc.l"
+#line 80 "calc.l"
 {printf("End of File\n");fclose(yyin);yyin=stdin;yyrestart(yyin);BEGIN(INITIAL);return ENTER;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 82 "calc.l"
+#line 81 "calc.l"
 ECHO;
 	YY_BREAK
-#line 1007 "lex.yy.c"
+#line 1006 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2002,39 +2001,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 82 "calc.l"
+#line 81 "calc.l"
 
 
 
-void show_functions(){
-    symrec *s = sym_table;
-    printf("The available functions are:\n");
-    while(s->next){
-        if(s->type == UFNC){
-            printf("\t %s()\n", s->name);
-        }
-        s = s->next;
-    }
-}
 
-void show_variables(){
-    symrec *s = sym_table;
-    int check = 0;
-    while(s->next){
-        if(s->type == VAR){
-            if(check == 0){
-                check = 1;
-                printf("Current variables:\n");
-            }
-            printf("\t %s = %g\n", s->name, s->value.var);
-        }
-        s = s->next;
-    }
-    if(check == 0){
-        printf("You haven't declared any variable yet!\n");
-    }
 
-}
+
 
 void show_help(){
     printf(" -----------------------------------\n");
