@@ -70,7 +70,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 14 "grammar.y" /* yacc.c:1909  */
+#line 15 "grammar.y" /* yacc.c:1909  */
 
 	float val;
 	symrec *tptr;

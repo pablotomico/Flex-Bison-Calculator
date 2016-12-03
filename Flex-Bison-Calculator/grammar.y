@@ -10,6 +10,7 @@ extern int yyparse();
 extern FILE* yyin;
 void yyerror(const char* s);
 %}
+%error-verbose
 
 %union {
 	float val;

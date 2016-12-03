@@ -90,7 +90,7 @@ void yyerror(const char* s);
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE 0
+# define YYERROR_VERBOSE 1
 #endif
 
 /* In a future release of Bison, this section will be replaced
@@ -135,7 +135,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 14 "grammar.y" /* yacc.c:355  */
+#line 15 "grammar.y" /* yacc.c:355  */
 
 	float val;
 	symrec *tptr;
@@ -456,14 +456,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    40,    40,    41,    44,    45,    46,    47,    50,    51,
-      52,    53,    54,    55,    56,    57,    58,    59,    68,    69,
-      70,    71,    72,    73,    74,    75,    76,    77,    78,    79,
-      80
+       0,    41,    41,    42,    45,    46,    47,    48,    51,    52,
+      53,    54,    55,    56,    57,    58,    59,    60,    69,    70,
+      71,    72,    73,    74,    75,    76,    77,    78,    79,    80,
+      81
 };
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE || 0
+#if YYDEBUG || YYERROR_VERBOSE || 1
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
@@ -1277,79 +1277,79 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 45 "grammar.y" /* yacc.c:1646  */
+#line 46 "grammar.y" /* yacc.c:1646  */
     { ;}
 #line 1283 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 46 "grammar.y" /* yacc.c:1646  */
+#line 47 "grammar.y" /* yacc.c:1646  */
     { printf("%g\n", (yyvsp[-1].val)); }
 #line 1289 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 47 "grammar.y" /* yacc.c:1646  */
+#line 48 "grammar.y" /* yacc.c:1646  */
     { exit(0); }
 #line 1295 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 50 "grammar.y" /* yacc.c:1646  */
+#line 51 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[0].val);      }
 #line 1301 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 51 "grammar.y" /* yacc.c:1646  */
+#line 52 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[0].tptr)->value.var;}
 #line 1307 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 52 "grammar.y" /* yacc.c:1646  */
+#line 53 "grammar.y" /* yacc.c:1646  */
     { if((yyvsp[-2].val) == (yyvsp[0].val)) (yyval.val) = 1; else (yyval.val) = 0;}
 #line 1313 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 53 "grammar.y" /* yacc.c:1646  */
+#line 54 "grammar.y" /* yacc.c:1646  */
     { if((yyvsp[-2].val) >= (yyvsp[0].val)) (yyval.val) = 1; else (yyval.val) = 0;}
 #line 1319 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 54 "grammar.y" /* yacc.c:1646  */
+#line 55 "grammar.y" /* yacc.c:1646  */
     { if((yyvsp[-2].val) <= (yyvsp[0].val)) (yyval.val) = 1; else (yyval.val) = 0;}
 #line 1325 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 55 "grammar.y" /* yacc.c:1646  */
+#line 56 "grammar.y" /* yacc.c:1646  */
     { if((yyvsp[-2].val) != (yyvsp[0].val)) (yyval.val) = 1; else (yyval.val) = 0;}
 #line 1331 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 56 "grammar.y" /* yacc.c:1646  */
+#line 57 "grammar.y" /* yacc.c:1646  */
     { if((yyvsp[-2].val) > (yyvsp[0].val)) (yyval.val) = 1; else (yyval.val) = 0;}
 #line 1337 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 57 "grammar.y" /* yacc.c:1646  */
+#line 58 "grammar.y" /* yacc.c:1646  */
     { if((yyvsp[-2].val) < (yyvsp[0].val)) (yyval.val) = 1; else (yyval.val) = 0;}
 #line 1343 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 58 "grammar.y" /* yacc.c:1646  */
+#line 59 "grammar.y" /* yacc.c:1646  */
     {printf("Reserved word %s\n", (yyvsp[-2].tptr)->name); return 0;}
 #line 1349 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 59 "grammar.y" /* yacc.c:1646  */
+#line 60 "grammar.y" /* yacc.c:1646  */
     {
                                 (yyval.val) = (yyvsp[0].val);
                                 if((yyvsp[-2].tptr)->priv == 'w')
@@ -1363,79 +1363,79 @@ yyreduce:
     break;
 
   case 18:
-#line 68 "grammar.y" /* yacc.c:1646  */
+#line 69 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (*((yyvsp[-3].tptr)->value.fnctptr))((yyvsp[-1].val)); }
 #line 1369 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 69 "grammar.y" /* yacc.c:1646  */
+#line 70 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-1].tptr)->value.var + 1; (yyvsp[-1].tptr)->value.var = (yyvsp[-1].tptr)->value.var + 1;}
 #line 1375 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 70 "grammar.y" /* yacc.c:1646  */
+#line 71 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-1].tptr)->value.var - 1; (yyvsp[-1].tptr)->value.var = (yyvsp[-1].tptr)->value.var - 1;}
 #line 1381 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 71 "grammar.y" /* yacc.c:1646  */
+#line 72 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-2].tptr)->value.var + (yyvsp[0].val); (yyvsp[-2].tptr)->value.var = (yyvsp[-2].tptr)->value.var + (yyvsp[0].val);}
 #line 1387 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 72 "grammar.y" /* yacc.c:1646  */
+#line 73 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-2].tptr)->value.var - (yyvsp[0].val); (yyvsp[-2].tptr)->value.var = (yyvsp[-2].tptr)->value.var - (yyvsp[0].val);}
 #line 1393 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 73 "grammar.y" /* yacc.c:1646  */
+#line 74 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-2].tptr)->value.var * (yyvsp[0].val); (yyvsp[-2].tptr)->value.var = (yyvsp[-2].tptr)->value.var * (yyvsp[0].val);}
 #line 1399 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 74 "grammar.y" /* yacc.c:1646  */
+#line 75 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-2].val) + (yyvsp[0].val); }
 #line 1405 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 75 "grammar.y" /* yacc.c:1646  */
+#line 76 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-2].val) - (yyvsp[0].val); }
 #line 1411 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 76 "grammar.y" /* yacc.c:1646  */
+#line 77 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-2].val) * (yyvsp[0].val); }
 #line 1417 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 77 "grammar.y" /* yacc.c:1646  */
+#line 78 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-2].val) / (float)(yyvsp[0].val); }
 #line 1423 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 78 "grammar.y" /* yacc.c:1646  */
+#line 79 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = -(yyvsp[0].val);}
 #line 1429 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 79 "grammar.y" /* yacc.c:1646  */
+#line 80 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = pow ((yyvsp[-2].val), (yyvsp[0].val));}
 #line 1435 "grammar.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 80 "grammar.y" /* yacc.c:1646  */
+#line 81 "grammar.y" /* yacc.c:1646  */
     { (yyval.val) = (yyvsp[-1].val); }
 #line 1441 "grammar.tab.c" /* yacc.c:1646  */
     break;
@@ -1669,5 +1669,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 84 "grammar.y" /* yacc.c:1906  */
+#line 85 "grammar.y" /* yacc.c:1906  */
 
