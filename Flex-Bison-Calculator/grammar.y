@@ -19,7 +19,7 @@ void showInitializationWarning(char* name);
 
 %union {
 	double val;
-	symrec *tptr;
+	tree *tptr;
 }
 
 %token  <val> NUM
@@ -58,6 +58,7 @@ exp:    NUM                 { $$ = $1;      }
       | VAR                 {
                                 if($1->decl == 'n'){
                                     showInitializationWarning($1->name);
+                                    $1->decl = 'y';
                                 }
                                 $$ = $1->value.var;
                             }
@@ -86,6 +87,7 @@ exp:    NUM                 { $$ = $1;      }
       | VAR PLUSPLUS        {
                                 if($1->decl == 'n'){
                                     showInitializationWarning($1->name);
+                                    $1->decl = 'y';
                                 }
                                 $$ = $1->value.var + 1;
                                 $1->value.var = $1->value.var + 1;
@@ -93,6 +95,7 @@ exp:    NUM                 { $$ = $1;      }
       | VAR MINUSMINUS      {
                                 if($1->decl == 'n'){
                                     showInitializationWarning($1->name);
+                                    $1->decl = 'y';
                                 }
                                 $$ = $1->value.var - 1;
                                 $1->value.var = $1->value.var - 1;
@@ -100,27 +103,31 @@ exp:    NUM                 { $$ = $1;      }
 	  | VAR PLUSEQUAL exp	{
 	                            if($1->decl == 'n'){
                                     showInitializationWarning($1->name);
+                                    $1->decl = 'y';
                                 }
 	                            $$ = $1->value.var + $3;
 	                            $1->value.var = $1->value.var + $3;
 	                        }
 	  | VAR MINUSEQUAL exp	{
 	                            if($1->decl == 'n'){
-                                   showInitializationWarning($1->name);
+                                    showInitializationWarning($1->name);
+                                    $1->decl = 'y';
                                }
 	                            $$ = $1->value.var - $3;
 	                            $1->value.var = $1->value.var - $3;
 	                        }
 	  | VAR MULTEQUAL exp	{
 	                            if($1->decl == 'n'){
-                                  showInitializationWarning($1->name);
+                                    showInitializationWarning($1->name);
+                                    $1->decl = 'y';
                                 }
 	                            $$ = $1->value.var * $3;
 	                            $1->value.var = $1->value.var * $3;
 	                        }
 	  | VAR DIVEQUAL exp	{
 	                            if($1->decl == 'n'){
-                                  showInitializationWarning($1->name);
+                                    showInitializationWarning($1->name);
+                                    $1->decl = 'y';
                                 }
 	                            if($3 == 0){
 	                                divisionByZero();
@@ -148,7 +155,7 @@ exp:    NUM                 { $$ = $1;      }
 %%
 
 void updateAns(double val){
-    symrec* s = getsym("Ans");
+    tree* s = getsym("Ans");
     s->value.var = val;
 }
 

@@ -74,7 +74,7 @@ union YYSTYPE
 #line 20 "grammar.y" /* yacc.c:1909  */
 
 	double val;
-	symrec *tptr;
+	tree *tptr;
 
 #line 80 "grammar.tab.h" /* yacc.c:1909  */
 };

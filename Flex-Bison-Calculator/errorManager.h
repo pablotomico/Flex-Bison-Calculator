@@ -14,6 +14,8 @@ void unknownComponent();
 
 void showWarning(char* msg);
 
+void showError(char *msg);
+
 void fatalError(char* msg);
 
 void divisionByZero();

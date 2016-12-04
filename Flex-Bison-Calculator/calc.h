@@ -5,7 +5,7 @@
 
 
 /* Tipo de datos para enlaces en la cadena de sı́mbolos. */
-struct symrec
+struct tree
 {
     char *name; /* nombre del sı́mbolo */
     int type;   /* tipo del sı́mbolo: bien VAR o FNCT */
@@ -16,22 +16,22 @@ struct symrec
         double (*fnctptr)(); /* valor de una FNCT */
     } value;
 
-    struct symrec *left; /* campo de enlace */
-    struct symrec *right;
+    struct tree *left; /* campo de enlace */
+    struct tree *right;
 };
 
-typedef struct symrec symrec;
+typedef struct tree tree;
 
-/* La tabla de sı́mbolos: una cadena de ‘struct symrec’. */
-extern symrec *sym_table;
+/* La tabla de sı́mbolos: una cadena de ‘struct tree’. */
+extern tree *sym_table;
 
 void init_table ();
 
 void reset_table();
 
-symrec *putsym(char *sym_name, int sym_type, char sym_priv, char sym_decl);
+tree *putsym(char *sym_name, int sym_type, char sym_priv, char sym_decl);
 
-symrec * getsym (char *sym_name);
+tree * getsym (char *sym_name);
 
 void show_variables();
 

@@ -4,6 +4,7 @@
 #include <math.h>
 #include "calc.h"
 #include "grammar.tab.h"
+#include "errorManager.h"
 
 
 struct init_fncts {
@@ -41,13 +42,13 @@ struct init_cts cts[]
                 0, 0
         };
 
-/* La tabla de sı́mbolos: una cadena de ‘struct symrec’. */
-symrec *sym_table = (symrec *)0;
+/* La tabla de sı́mbolos: una cadena de ‘struct tree’. */
+tree *sym_table = (tree *)0;
 
 void init_table () /* pone las funciones aritméticas en una tabla. */
 {
     int i;
-    symrec *ptr;
+    tree *ptr;
     for (i = 0; arith_fncts[i].fname != 0; i++)
     {
         ptr = putsym (arith_fncts[i].fname, UFNC, 'r', 'y');
@@ -62,7 +63,7 @@ void init_table () /* pone las funciones aritméticas en una tabla. */
 
 
 
-void delete_table(symrec **s){
+void delete_table(tree **s){
     if((*s)->left != NULL){
         delete_table(&((*s)->left));
     }
@@ -76,23 +77,23 @@ void delete_table(symrec **s){
 
 void reset_table(){
     delete_table(&sym_table);
-    sym_table = (symrec *)0;
+    sym_table = (tree *)0;
     init_table();
 }
-symrec *putsym_r(symrec **s, char *sym_name, int sym_type, char sym_priv, char sym_decl) {
-    symrec *ptr;
+tree *putsym_r(tree **s, char *sym_name, int sym_type, char sym_priv, char sym_decl) {
+    tree *ptr;
     int res;
 
     if(*s == NULL){
-        ptr = (symrec *) malloc(sizeof(symrec));
+        ptr = (tree *) malloc(sizeof(tree));
         ptr->name = (char *) malloc(strlen(sym_name) + 1);
         strcpy(ptr->name, sym_name);
         ptr->type = sym_type;
         ptr->value.var = 0; /* pone valor a 0 incluso si es fctn.*/
         ptr->priv = sym_priv;
         ptr->decl = sym_decl;
-        ptr->left = (struct symrec *) NULL;
-        ptr->right = (struct symrec *) NULL;
+        ptr->left = (struct tree *) NULL;
+        ptr->right = (struct tree *) NULL;
 
         *s = ptr;
     }else{
@@ -107,11 +108,11 @@ symrec *putsym_r(symrec **s, char *sym_name, int sym_type, char sym_priv, char s
     return ptr;
 }
 
-symrec *putsym(char *sym_name, int sym_type, char sym_priv, char sym_decl) {
+tree *putsym(char *sym_name, int sym_type, char sym_priv, char sym_decl) {
     return putsym_r(&sym_table, sym_name, sym_type, sym_priv, sym_decl);;
 }
 
-symrec *getsym_r(symrec **s, char *sym_name) {
+tree *getsym_r(tree **s, char *sym_name) {
 
     int res = strcmp(sym_name, (*s)->name);
 
@@ -131,13 +132,13 @@ symrec *getsym_r(symrec **s, char *sym_name) {
 }
 
 
-symrec *getsym(char *sym_name) {
+tree *getsym(char *sym_name) {
     return getsym_r(&sym_table, sym_name);
 }
 
 
 
-void show_var(symrec *s){
+void show_var(tree *s){
     if(s->left != NULL){
         show_var(s->left);
     }
@@ -153,10 +154,12 @@ void show_var(symrec *s){
 
 void show_variables(){
     printf("Current variables:\n");
+    printf("%s", KBLU);
     show_var(sym_table);
+    printf("%s", RST);
 }
 
-void show_function(symrec *s){
+void show_function(tree *s){
     if(s->left != NULL){
         show_function(s->left);
     }
@@ -171,7 +174,10 @@ void show_function(symrec *s){
 }
 
 void show_functions(){
-    symrec *s = sym_table;
+    tree *s = sym_table;
     printf("The available functions are:\n");
+    printf("%s", KBLU);
     show_function(sym_table);
+    printf("%s", RST);
 }
+

@@ -12,6 +12,11 @@ void showWarning(char *msg) {
     printf("%s", RST);
 }
 
+void showError(char *msg) {
+    printf("%sERROR: %s\n", KRED, msg);
+    printf("%s", RST);
+}
+
 void fatalError(char *msg) {
     printf("%sFATAL ERROR: %s\n", KRED, msg);
     printf("%s", RST);
