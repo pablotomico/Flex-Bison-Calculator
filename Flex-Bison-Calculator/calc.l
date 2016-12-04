@@ -57,7 +57,7 @@ VarInitChar                     [_[:alpha:]]
 [ \t\r]
 [0-9]+(\.[0-9]+)? 	                    {yylval.val = atof(yytext); return NUM;}
 [0-9]+([\.][0-9]*)?[eE][+-]?[0-9]+      {yylval.val = atof(yytext); return NUM;}
-\n		    	                        {return ENTER;}
+\n		    	                        {return ENDOFLINE;}
 "+"		    	                        {return '+';}
 "-"		    	                        {return '-';}
 "*"		    	                        {return '*';}
@@ -69,6 +69,10 @@ VarInitChar                     [_[:alpha:]]
 ";"                                     {return ';';}
 ">"                                     {return(GREATER);}
 "<"                                     {return(LESS);}
+"|"                                     {return('|');}
+"&"                                     {return('&');}
+"||"                                     {return('|');}
+"&&"                                     {return('&');}
 "++"                                    {return(PLUSPLUS);}
 "--"                                    {return(MINUSMINUS);}
 "=="                                    {return(EQUALEQUAL);}
@@ -79,7 +83,8 @@ VarInitChar                     [_[:alpha:]]
 "-="                                    {return(MINUSEQUAL);}
 "*="                                    {return(MULTEQUAL);}
 "/="                                    {return(DIVEQUAL);}
-<<EOF>>                                 {printf("Reached EOF\n");fclose(yyin);yyin=stdin;yyrestart(yyin);return ENTER;}
+.                                       {;}
+<<EOF>>                                 {printf("Reached EOF\n");fclose(yyin);yyin=stdin;yyrestart(yyin);return ENDOFLINE;}
 %%
 
 
@@ -87,6 +92,7 @@ VarInitChar                     [_[:alpha:]]
 
 
 void show_help(){
+    printf("%s", KBLU);
     printf(" -----------------------------------\n");
     printf("| Supported commands:               |\n");
     printf("|      :h        -> help            |\n");
@@ -98,8 +104,10 @@ void show_help(){
     printf(" -----------------------------------\n");
     printf("| Operators:                        |\n");
     printf("|  +  -  *  /  =  += -= *= /= ++ -- |\n");
-    printf("|     ==    >=    <=    >    <      |\n");
+    printf("|   !=   ==   >=   <=    >    <     |\n");
     printf("|     True => 0     False => 1      |\n");
+    printf("|        Ans => last result         |\n");
     printf(" -----------------------------------\n");
+    printf("%s", RST);
 }
 

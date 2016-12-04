@@ -35,6 +35,7 @@ struct init_cts {
 
 struct init_cts cts[]
         = {
+                "Ans", 0,
                 "pi", M_PI,
                 "e", M_E,
                 0, 0
@@ -142,7 +143,7 @@ void show_var(symrec *s){
     }
 
     if(s->name != NULL && s->type == VAR){
-        printf("\t %s = %g\n", s->name, s->value.var);
+        printf("\t [%c] %s = %g\n",s->priv, s->name, s->value.var);
     }
 
     if(s->right != NULL){

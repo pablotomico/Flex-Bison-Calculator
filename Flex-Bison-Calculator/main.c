@@ -18,6 +18,3 @@ int main() {
 
     return 0;
 }
-void yyerror(const char* s) {
-    fprintf(stderr, "ERROR: %s\n", s);
-}

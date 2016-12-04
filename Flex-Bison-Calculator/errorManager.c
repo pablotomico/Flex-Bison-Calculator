@@ -21,3 +21,7 @@ void divisionByZero(){
     printf("%sERROR: Can't divide by zero\n", KRED);
     printf("%s", RST);
 }
+
+void yyerror(const char* s) {
+    fprintf(stderr, "ERROR: %s\n", s);
+}

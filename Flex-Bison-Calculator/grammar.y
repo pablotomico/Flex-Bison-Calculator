@@ -10,7 +10,9 @@ extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
 void yyerror(const char* s);
+void updateAns(double val);
 void showInitializationWarning(char* name);
+
 
 %}
 %error-verbose
@@ -24,13 +26,14 @@ void showInitializationWarning(char* name);
 %token  <tptr> VAR
 %token  <tptr> UFNC
 %token '+' '*' '/' '(' ')'
-%token PLUSPLUS MINUSMINUS EQUALEQUAL GREATEREQUAL LESSEQUAL NOTEQUAL PLUSEQUAL MINUSEQUAL MULTEQUAL DIVEQUAL GREATER LESS
-%token ENTER EXIT ';'
+%token PLUSPLUS MINUSMINUS EQUALEQUAL GREATEREQUAL LESSEQUAL NOTEQUAL PLUSEQUAL MINUSEQUAL MULTEQUAL DIVEQUAL GREATER LESS '|' '&'
+%token ENDOFLINE EXIT ';'
 
 
 %type<val> exp
 
 %right '='
+%left '|' '&'
 %left '+' '-' PLUSPLUS MINUSMINUS EQUALEQUAL GREATEREQUAL LESSEQUAL NOTEQUAL PLUSEQUAL MINUSEQUAL MULTEQUAL DIVEQUAL GREATER LESS
 %left '*' '/'
 %left NEG
@@ -45,10 +48,10 @@ calc:
 	   | calc line
 ;
 
-line: ENTER
-    | exp ';' ENTER  { ;}
-    | exp ENTER { printf("%s  %g\n", KBLU, $1); printf("%s", RST);}
-    | EXIT ENTER { exit(0); }
+line: ENDOFLINE
+    | exp ';' ENDOFLINE  { updateAns($1);}
+    | exp ENDOFLINE { updateAns($1);printf("%s  %g\n", KBLU, $1); printf("%s", RST);}
+    | EXIT ENDOFLINE { exit(0); }
 ;
 
 exp:    NUM                 { $$ = $1;      }
@@ -58,6 +61,8 @@ exp:    NUM                 { $$ = $1;      }
                                 }
                                 $$ = $1->value.var;
                             }
+      | exp '|' exp         { if(($1 == 1) || ($3 == 1)) $$ = 1; else $$ = 0;}
+      | exp '&' exp         { if(($1 == 1) && ($3 == 1)) $$ = 1; else $$ = 0;}
       | exp EQUALEQUAL exp  { if($1 == $3) $$ = 1; else $$ = 0;}
       | exp GREATEREQUAL exp{ if($1 >= $3) $$ = 1; else $$ = 0;}
       | exp LESSEQUAL exp   { if($1 <= $3) $$ = 1; else $$ = 0;}
@@ -141,6 +146,11 @@ exp:    NUM                 { $$ = $1;      }
 
 
 %%
+
+void updateAns(double val){
+    symrec* s = getsym("Ans");
+    s->value.var = val;
+}
 
 void showInitializationWarning(char* name){
     char msg[60];

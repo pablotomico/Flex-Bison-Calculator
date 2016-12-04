@@ -60,7 +60,7 @@ extern int yydebug;
     DIVEQUAL = 270,
     GREATER = 271,
     LESS = 272,
-    ENTER = 273,
+    ENDOFLINE = 273,
     EXIT = 274,
     NEG = 275
   };
@@ -71,7 +71,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 18 "grammar.y" /* yacc.c:1909  */
+#line 20 "grammar.y" /* yacc.c:1909  */
 
 	double val;
 	symrec *tptr;
