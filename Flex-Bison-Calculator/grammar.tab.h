@@ -57,11 +57,12 @@ extern int yydebug;
     PLUSEQUAL = 267,
     MINUSEQUAL = 268,
     MULTEQUAL = 269,
-    GREATER = 270,
-    LESS = 271,
-    ENTER = 272,
-    EXIT = 273,
-    NEG = 274
+    DIVEQUAL = 270,
+    GREATER = 271,
+    LESS = 272,
+    ENTER = 273,
+    EXIT = 274,
+    NEG = 275
   };
 #endif
 
@@ -70,12 +71,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "grammar.y" /* yacc.c:1909  */
+#line 18 "grammar.y" /* yacc.c:1909  */
 
-	float val;
+	double val;
 	symrec *tptr;
 
-#line 79 "grammar.tab.h" /* yacc.c:1909  */
+#line 80 "grammar.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

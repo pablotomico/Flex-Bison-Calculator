@@ -31,8 +31,8 @@ VarInitChar                     [_[:alpha:]]
     [fF]                                {show_functions(); BEGIN(INITIAL);  }
     [vV]                                {show_variables(); BEGIN(INITIAL);  }
     [qQ]                                {printf("Good bye!\n"); BEGIN(INITIAL); return EXIT;}
-    [rR]                                {restart();BEGIN(INITIAL);}
-    [lL]" "[[:alpha:]/\-_]+[.?[[:alpha:]]+]?    {
+    [rR]                                {printf("Restarting workspace\n");reset_table();BEGIN(INITIAL);}
+    [lL].*                              {
 
                                             FILE* fp = fopen(yytext+2, "r+");
                                             if(!fp){
@@ -44,11 +44,12 @@ VarInitChar                     [_[:alpha:]]
                                             }
                                             BEGIN(INITIAL);
                                         }
+    <<EOF>>                             {BEGIN(INITIAL);}
 }
 {VarInitChar}{VarChar}*                 {
                                             s = getsym(yytext);
                                             if(s == 0){
-                                                s = putsym(yytext, VAR, 'w');
+                                                s = putsym(yytext, VAR, 'w', 'n');
                                             }
                                             yylval.tptr = s;
                                             return s->type;
@@ -77,7 +78,8 @@ VarInitChar                     [_[:alpha:]]
 "+="                                    {return(PLUSEQUAL);}
 "-="                                    {return(MINUSEQUAL);}
 "*="                                    {return(MULTEQUAL);}
-<<EOF>>                                 {printf("End of File\n");fclose(yyin);yyin=stdin;yyrestart(yyin);BEGIN(INITIAL);return ENTER;}
+"/="                                    {return(DIVEQUAL);}
+<<EOF>>                                 {printf("Reached EOF\n");fclose(yyin);yyin=stdin;yyrestart(yyin);return ENTER;}
 %%
 
 
@@ -91,19 +93,13 @@ void show_help(){
     printf("|      :l [path] -> load file       |\n");
     printf("|      :f        -> show functions  |\n");
     printf("|      :v        -> show variables  |\n");
-    printf("|      :r        -> restart         |\n");
+    printf("|      :r        -> reset           |\n");
     printf("|      :q        -> quit            |\n");
     printf(" -----------------------------------\n");
     printf("| Operators:                        |\n");
-    printf("|  +  -  *  /  =    += -= *= ++ --  |\n");
+    printf("|  +  -  *  /  =  += -= *= /= ++ -- |\n");
     printf("|     ==    >=    <=    >    <      |\n");
     printf("|     True => 0     False => 1      |\n");
     printf(" -----------------------------------\n");
 }
 
-void restart(){
-    symrec s = *sym_table;
-    remove_table();
-
-    //init_table();
-}

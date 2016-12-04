@@ -19,6 +19,12 @@ struct init_fncts arith_fncts[]
                 "ln", log,
                 "exp", exp,
                 "sqrt", sqrt,
+                "asin", asin,
+                "acos", acos,
+                "cosh", cosh,
+                "sinh", sinh,
+                "tanh", tanh,
+                "log10", log10,
                 0, 0
         };
 
@@ -43,25 +49,36 @@ void init_table () /* pone las funciones aritméticas en una tabla. */
     symrec *ptr;
     for (i = 0; arith_fncts[i].fname != 0; i++)
     {
-        ptr = putsym (arith_fncts[i].fname, UFNC, 'r');
+        ptr = putsym (arith_fncts[i].fname, UFNC, 'r', 'y');
         ptr->value.fnctptr = arith_fncts[i].fnct;
     }
     for (i = 0; cts[i].name != 0; i++)
     {
-        ptr = putsym (cts[i].name, VAR, 'r');
+        ptr = putsym (cts[i].name, VAR, 'r', 'y');
         ptr->value.var = cts[i].value;
     }
 }
-void remove_element(symrec *s){
 
 
+
+void delete_table(symrec **s){
+    if((*s)->left != NULL){
+        delete_table(&((*s)->left));
+    }
+    if((*s)->right != NULL){
+        delete_table(&((*s)->right));
+    }
+
+    free((*s)->name);
+    free(*s);
 }
 
-void remove_table(){
-    remove_element(sym_table);
+void reset_table(){
+    delete_table(&sym_table);
+    sym_table = (symrec *)0;
+    init_table();
 }
-
-symrec *putsym_r(symrec **s, char *sym_name, int sym_type, char sym_priv) {
+symrec *putsym_r(symrec **s, char *sym_name, int sym_type, char sym_priv, char sym_decl) {
     symrec *ptr;
     int res;
 
@@ -72,6 +89,7 @@ symrec *putsym_r(symrec **s, char *sym_name, int sym_type, char sym_priv) {
         ptr->type = sym_type;
         ptr->value.var = 0; /* pone valor a 0 incluso si es fctn.*/
         ptr->priv = sym_priv;
+        ptr->decl = sym_decl;
         ptr->left = (struct symrec *) NULL;
         ptr->right = (struct symrec *) NULL;
 
@@ -79,25 +97,41 @@ symrec *putsym_r(symrec **s, char *sym_name, int sym_type, char sym_priv) {
     }else{
         res = strcmp(sym_name, (*s)->name);
         if (res < 0){
-            ptr = putsym_r(&((*s)->left), sym_name, sym_type, sym_priv);
+            ptr = putsym_r(&((*s)->left), sym_name, sym_type, sym_priv, sym_decl);
         }else {
-            ptr = putsym_r(&((*s)->right), sym_name, sym_type, sym_priv);
+            ptr = putsym_r(&((*s)->right), sym_name, sym_type, sym_priv, sym_decl);
         }
     }
 
     return ptr;
 }
 
-symrec *putsym(char *sym_name, int sym_type, char sym_priv) {
-    return putsym_r(&sym_table, sym_name, sym_type, sym_priv);;
+symrec *putsym(char *sym_name, int sym_type, char sym_priv, char sym_decl) {
+    return putsym_r(&sym_table, sym_name, sym_type, sym_priv, sym_decl);;
 }
 
+symrec *getsym_r(symrec **s, char *sym_name) {
+
+    int res = strcmp(sym_name, (*s)->name);
+
+    if(res == 0){
+        return *s;
+    }else if (res < 0){
+        if((*s)->left != NULL)
+            return getsym_r(&((*s)->left), sym_name);
+        else
+            return 0;
+    }else{
+        if((*s)->right != NULL)
+            return getsym_r(&((*s)->right), sym_name);
+        else
+            return 0;
+    }
+}
+
+
 symrec *getsym(char *sym_name) {
-    symrec *ptr;
-    for (ptr = sym_table; ptr != (symrec *) 0; ptr = (symrec *) ptr->left)
-        if (strcmp(ptr->name, sym_name) == 0)
-            return ptr;
-    return 0;
+    return getsym_r(&sym_table, sym_name);
 }
 
 

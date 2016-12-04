@@ -2,10 +2,5 @@
 ==== TODO List Flex-Bison-Calculator ====
 =========================================
 
------	Clear symbol table
-
----- 	Change types from float to double
-
-----	Error manager	
 
 --	Use 'ans' (or smth like that) for previous answer
