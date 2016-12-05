@@ -2054,11 +2054,9 @@ void show_help(){
     printf("|      :r        -> reset           |\n");
     printf("|      :q        -> quit            |\n");
     printf(" -----------------------------------\n");
-    printf("| Operators:                        |\n");
-    printf("|  +  -  *  /  =  += -= *= /= ++ -- |\n");
-    printf("|   !=   ==   >=   <=    >    <     |\n");
-    printf("|     True => 0     False => 1      |\n");
-    printf("|        Ans => last result         |\n");
+    printf("|               NOTE                |\n");
+    printf("|    1 => TRUE       2 => FALSE     |\n");
+    printf("|        Ans  =>  Last output       |\n");
     printf(" -----------------------------------\n");
     printf("%s", RST);
 }
