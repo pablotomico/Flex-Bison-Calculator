@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "errorManager.h"
-#include "calc.h"
+#include "symbolTable.h"
 
 
 extern int yylex();

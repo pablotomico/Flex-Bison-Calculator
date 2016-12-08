@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "calc.h"
+#include "symbolTable.h"
 #include "grammar.tab.h"
 #include "errorManager.h"
 
@@ -12,22 +12,21 @@ struct init_fncts {
     double (*fnct)();
 };
 
-struct init_fncts arith_fncts[]
-        = {
-                "sin", sin,
-                "cos", cos,
-                "atan", atan,
-                "ln", log,
-                "exp", exp,
-                "sqrt", sqrt,
-                "asin", asin,
-                "acos", acos,
-                "cosh", cosh,
-                "sinh", sinh,
-                "tanh", tanh,
-                "log10", log10,
-                0, 0
-        };
+struct init_fncts arith_fncts[] = {
+        {"sin", sin},
+        {"cos", cos},
+        {"atan", atan},
+        {"ln", log},
+        {"exp", exp},
+        {"sqrt", sqrt},
+        {"asin", asin},
+        {"acos", acos},
+        {"cosh", cosh},
+        {"sinh", sinh},
+        {"tanh", tanh},
+        {"log10", log10},
+        {0, 0}
+};
 
 struct init_cts {
     char *name;
@@ -36,10 +35,10 @@ struct init_cts {
 
 struct init_cts cts[]
         = {
-                "Ans", 0,
-                "pi", M_PI,
-                "e", M_E,
-                0, 0
+                {"Ans", 0},
+                {"pi", M_PI},
+                {"e", M_E},
+                {0, 0}
         };
 
 /* La tabla de sı́mbolos: una cadena de ‘struct tree’. */

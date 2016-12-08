@@ -12,9 +12,7 @@ int main() {
 
     printf("Welcome! for help type :h or :H\n");
 
-    do {
-        yyparse();
-    } while(!feof(yyin));
+    yyparse();
 
     return 0;
 }

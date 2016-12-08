@@ -509,7 +509,7 @@ char *yytext;
 #include <stdio.h>
 #include <string.h>
 
-#include "calc.h"
+#include "symbolTable.h"
 #include "grammar.tab.h"
 #include "errorManager.h"
 
@@ -2057,6 +2057,7 @@ void show_help(){
     printf("|               NOTE                |\n");
     printf("|    1 => TRUE       2 => FALSE     |\n");
     printf("|        Ans  =>  Last output       |\n");
+    printf("|  Use ; at the end to hide output  |\n");
     printf(" -----------------------------------\n");
     printf("%s", RST);
 }
