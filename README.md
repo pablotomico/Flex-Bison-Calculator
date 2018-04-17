@@ -1,2 +1,2 @@
 # Flex-Bison-Calculator
-Uni-Project: command line calculator using flex and bison
+Command Line Calculator in C using flex and bison.
